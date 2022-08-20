@@ -53,6 +53,13 @@ class HDRadiColaDrinker:HDWoundFixer{
 	class<actor> spentinjecttype;
 	class<inventory> inventorytype;
 	string noerror;
+	
+	string injectoricon;
+	property injectoricon:injectoricon;
+	property injecttype:injecttype;
+	class<inventory> injectortype;
+	property injectortype:injectortype;
+	
 	property injecttype:injecttype;
 	property spentinjecttype:spentinjecttype;
 	property inventorytype:inventorytype;
@@ -70,8 +77,8 @@ class HDRadiColaDrinker:HDWoundFixer{
 		hdradicoladrinker.inventorytype "HDRadiCola";
 		hdradicoladrinker.noerror "No Radi-Cola left.";
 		weapon.selectionorder 1003;
-		hdwoundfixer.injectoricon "RDCLA0";
-		hdwoundfixer.injectortype "HDRadiCola";
+		HDRadiColaDrinker.injectoricon "RDCLA0";
+		HDRadiColaDrinker.injectortype "HDRadiCola";
 		tag "Radi-Cola";
 	}
 	states{
