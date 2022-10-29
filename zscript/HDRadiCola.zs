@@ -20,32 +20,52 @@ class HDRadiCola:PortableStimpack{
 	}
 }
 
-class SpentRadiCola:SpentStim{
-	default{
+class SpentRadiCola:HDActor{//code borrowed from HDFragGrenadeRoller
+	vector3 keeprolling;
+	
+	default{//this should make empty cans kickable
+	
+	    -noextremedeath -floorclip +shootable +noblood +forcexybillboard
+		+activatemcross -noteleport +noblockmonst
+		+missile +bounceonactors +usebouncestate
+		
+		bouncetype "doom";
+	    damagetype "none";
 		bouncesound "misc/emptycan";
-  bouncefactor 0.3;
-  scale 0.3;
-  radius 4;
-  height 4;
+		bouncefactor 0.5;
+		
+		mass 1;
+		scale 0.37;
+		radius 4;
+		height 4;
+		alpha 1.0;
 	}
-
 	states{
 	spawn:
-		RDCL B 0;
+		RDCL B 0 A_ChangeVelocity(velx, vely+2, velz+2, CVF_REPLACE);
 		goto spawn2;
+	spawn2:
+		#### BBB 2{
+			if(abs(vel.z-keeprolling.z)>10)A_StartSound("misc/emptycan",CHAN_BODY);
+			else if(floorz>=pos.z)A_StartSound("misc/emptycan");
+			keeprolling=vel;
+			if(abs(vel.x)<0.4 && abs(vel.y)<0.4) setstatelabel("death");
+		}loop;
+	bounce:
+		---- B 0{
+			bmissile=false;
+			vel*=0.9;
+		}goto spawn2;
 	death:
-		---- B 100{
-			if(random(0,7))roll=randompick(90,270);else roll=0;
-			if(roll==270)scale.x*=-1;
-		}
-		---- B random(2,4){
-			if(frandom(0.1,0.9)<alpha){
-				angle+=random(-12,12);pitch=random(45,90);
+		---- B 2{
+			if(abs(vel.z-keeprolling.z)>3){
+				A_StartSound("misc/emptycan",CHAN_BODY);
+				keeprolling=vel;
 			}
+			if(abs(vel.x)>0.4 || abs(vel.y)>0.4) setstatelabel("spawn");
 		}wait;
 	}
 }
-
 
 
 class HDRadiColaDrinker:HDWoundFixer{
