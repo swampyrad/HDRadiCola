@@ -26,7 +26,7 @@ class SpentRadiCola:HDActor{//code borrowed from HDFragGrenadeRoller
 	default{//this should make empty cans kickable
 	
 	    -noextremedeath -floorclip +shootable +noblood +forcexybillboard
-		+activatemcross -noteleport +noblockmonst
+		+activatemcross -noteleport +noblockmonst +pushable
 		+missile +bounceonactors +usebouncestate
 		
 		bouncetype "doom";
@@ -34,7 +34,7 @@ class SpentRadiCola:HDActor{//code borrowed from HDFragGrenadeRoller
 		bouncesound "misc/emptycan";
 		bouncefactor 0.5;
 		
-		mass 1;
+		mass 10;
 		scale 0.37;
 		radius 4;
 		height 4;
@@ -42,7 +42,7 @@ class SpentRadiCola:HDActor{//code borrowed from HDFragGrenadeRoller
 	}
 	states{
 	spawn:
-		RDCL B 0 A_ChangeVelocity(velx, vely+2, velz+2, CVF_REPLACE);
+		RDCL B 0 A_ChangeVelocity(velx*2+frandom(-1,1), vely*2+frandom(-1,1), velz+3, CVF_REPLACE);
 		goto spawn2;
 	spawn2:
 		#### BBB 2{
